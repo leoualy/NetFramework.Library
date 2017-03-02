@@ -33,6 +33,8 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,6 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Http\HttpPkg.cs" />
+    <Compile Include="Http\Methods\AbMethod.cs" />
+    <Compile Include="Http\Methods\GetMethodImpl.cs" />
+    <Compile Include="Http\Methods\IMethod.cs" />
+    <Compile Include="Http\Methods\PostMethodImpl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WinInet\NetWork.cs" />
     <Compile Include="WinSock\HandlerImpl\AsyncTcpHandler.cs" />
