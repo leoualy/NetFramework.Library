@@ -13,8 +13,6 @@ namespace Library.Network.Http.Methods
         public abstract void AsyncFun(HttpPkg pack);
         public abstract void SyncFun(HttpPkg pack);
 
-        protected HttpWebRequest mHttpRequest;
-
         /// <summary>
         /// 设置Http头
         /// </summary>
