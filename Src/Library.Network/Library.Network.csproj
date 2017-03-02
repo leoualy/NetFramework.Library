@@ -49,16 +49,10 @@
     <Compile Include="Http\Methods\PostMethodImpl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WinInet\NetWork.cs" />
-    <Compile Include="WinSock\HandlerImpl\AsyncTcpHandler.cs" />
-    <Compile Include="WinSock\HandlerBase.cs" />
-    <Compile Include="WinSock\IHandler.cs" />
-    <Compile Include="WinSock\ISocketServer.cs" />
-    <Compile Include="WinSock\ServerBase.cs" />
-    <Compile Include="WinSock\ServerImpl\TcpServer.cs" />
-    <Compile Include="WinSock\SocketExceptionManager.cs" />
-    <Compile Include="WinSock\Socket_AL_IRP.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="WinSock\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
