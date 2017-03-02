@@ -11,60 +11,26 @@ namespace Library.Network.Http.Methods
 {
     internal class PostMethodImpl : AbMethod
     {
-        public override async void AsyncFun(HttpPkg pack)
+        public override void AsyncFun(HttpPkg pack)
         {
-            HttpWebRequest req = GetHttpRequest(pack.Url);
-            byte[] buffer = GetContentBytes(pack.Content, pack.EncodingName);
-
-            req.ContentLength = buffer.Length;
-            // 设置Http头
-            PrepareHttpHead(ref req, pack.Method, pack.ContentType, pack.AcceptType);
-
-            try
-            {
-                if (buffer != null || buffer.Length <= 0)
-                {
-                    // 有要提交的数据时通过Post方法提交，需要添加没有需要提交的数据时的处理
-                    using(Stream s=await req.GetRequestStreamAsync())
-                    {
-                        await s.WriteAsync(buffer, 0, buffer.Length);
-                    }
-                }
-
-                HttpWebResponse response = await req.GetResponseAsync() as HttpWebResponse;
-                if (pack.ResponseCallback != null)
-                {
-                    pack.ResponseCallback(response.GetResponseStream(), response.StatusCode);
-                }
-                response.Close();
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            
         }
 
         public override void SyncFun(HttpPkg pack)
         {
-            HttpWebRequest req = GetHttpRequest(pack.Url);
-            byte[] buffer = GetContentBytes(pack.Content, pack.EncodingName);
-
-            req.ContentLength = buffer.Length;
+            HttpWebRequest req;
+            byte[] buffer = GetUserBytes(pack);
             // 设置Http头
-            PrepareHttpHead(ref req, pack.Method, pack.ContentType, pack.AcceptType);
-            
+            PrepareHttpHead(ref mHttpRequest, pack.Method, pack.ContentType, pack.AcceptType);
+
             try
             {
-                if (buffer != null || buffer.Length <= 0)
+                // 有要提交的数据时通过Post方法提交，需要添加没有需要提交的数据时的处理
+                using (Stream s = mHttpRequest.GetRequestStream())
                 {
-                    // 有要提交的数据时通过Post方法提交，需要添加没有需要提交的数据时的处理
-                    using (Stream s = req.GetRequestStream())
-                    {
-                        s.Write(buffer, 0, buffer.Length);
-                    }
+                    s.Write(buffer,0,buffer.Length);
                 }
-                
-                HttpWebResponse response = req.GetResponse() as HttpWebResponse;
+                HttpWebResponse response = mHttpRequest.GetResponse() as HttpWebResponse;
                 if (pack.ResponseCallback != null)
                 {
                     pack.ResponseCallback(response.GetResponseStream(), response.StatusCode);
@@ -78,15 +44,19 @@ namespace Library.Network.Http.Methods
             
         }
 
-        private HttpWebRequest GetHttpRequest(string url)
-        {
-            return WebRequest.Create(url) as HttpWebRequest;
-        }
+        
 
-        private byte[] GetContentBytes(string content,string encodingName)
+        private byte[] GetUserBytes(HttpPkg pkg)
         {
-            Encoding encoding = Encoding.GetEncoding(encodingName);
-            return encoding.GetBytes(content);
+            if (pkg == null)
+            {
+                throw new Exception("自定义Http包结构对象为null");
+            }
+            Encoding encoding = Encoding.GetEncoding(pkg.EncodingName);
+            int len = encoding.GetByteCount(pkg.Content);
+
+            mHttpRequest= WebRequest.Create(pkg.Url) as HttpWebRequest;
+            return encoding.GetBytes(pkg.Content);
         }
 
 
