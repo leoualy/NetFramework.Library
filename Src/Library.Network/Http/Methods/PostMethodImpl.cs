@@ -1,27 +1,50 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Net;
-using System.Net.Http;
 using System.IO;
 
 namespace Library.Network.Http.Methods
 {
     internal class PostMethodImpl : AbMethod
     {
-        public override void AsyncFun(HttpPkg pack)
+        public override async void AsyncFun(HttpPkg pack)
         {
-            
+            if (pack == null)
+            {
+                throw new Exception("要发送的http结构包为null");
+            }
+            HttpWebRequest req = PrepareHttpWebRequest(pack);
+            byte[] buffer = GetContentBytes(pack.Content, pack.EncodingName);
+
+            try
+            {
+                // 有要提交的数据时通过Post方法提交，需要添加没有需要提交的数据时的处理
+                using (Stream s = await req.GetRequestStreamAsync())
+                {
+                    await s.WriteAsync(buffer, 0, buffer.Length);
+                }
+                using(HttpWebResponse response = await req.GetResponseAsync() as HttpWebResponse)
+                {
+                    OnResponseCallback(await req.GetResponseAsync() as HttpWebResponse, pack.ResponseCallback);
+                }
+                
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public override void SyncFun(HttpPkg pack)
         {
-            HttpWebRequest req = GetHttpRequest(pack.Url, pack.Method, pack.ContentType, pack.AcceptType);
-            byte[] buffer = GetContentBytes(pack.Content, pack.EncodingName);
-            req.ContentLength = buffer.Length;
+            if (pack == null)
+            {
+                throw new Exception("要发送的http结构包为null");
+            }
 
+            HttpWebRequest req = PrepareHttpWebRequest(pack);
+            byte[] buffer = GetContentBytes(pack.Content, pack.EncodingName);
+            
             try
             {
                 // 有要提交的数据时通过Post方法提交，需要添加没有需要提交的数据时的处理
@@ -29,12 +52,11 @@ namespace Library.Network.Http.Methods
                 {
                     s.Write(buffer,0,buffer.Length);
                 }
-                HttpWebResponse response = req.GetResponse() as HttpWebResponse;
-                if (pack.ResponseCallback != null)
+                using(HttpWebResponse response = req.GetResponse() as HttpWebResponse)
                 {
-                    pack.ResponseCallback(response.GetResponseStream(), response.StatusCode);
+                    OnResponseCallback(response, pack.ResponseCallback);
                 }
-                response.Close();
+                req.Abort();
             }
             catch (Exception e)
             {
@@ -47,6 +69,14 @@ namespace Library.Network.Http.Methods
             return Encoding.GetEncoding(encodingName).GetBytes(content);
         }
 
+        private HttpWebRequest PrepareHttpWebRequest(HttpPkg pkg)
+        {
+            HttpWebRequest req = WebRequest.Create(pkg.Url) as HttpWebRequest;
+            req.Method = pkg.Method;
+            req.ContentType = pkg.ContentType;
+            req.Accept = pkg.AcceptType;
+            return req;
+        }
 
     }
 }

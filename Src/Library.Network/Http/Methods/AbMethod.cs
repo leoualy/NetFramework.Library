@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net;
+using System.IO;
 using System.Net.Http;
 
 namespace Library.Network.Http.Methods
@@ -21,6 +22,12 @@ namespace Library.Network.Http.Methods
             req.Accept = acceptType;
             return req;
         }
-        
+        protected void OnResponseCallback(HttpWebResponse resp, Action<Stream, HttpStatusCode> action)
+        {
+            if (action != null)
+            {
+                action(resp.GetResponseStream(), resp.StatusCode);
+            }
+        }
     }
 }
