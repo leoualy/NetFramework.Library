@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Http\Httper.cs" />
+    <Compile Include="Http\HttperImpl.cs" />
     <Compile Include="Http\HttpPkg.cs" />
     <Compile Include="Http\IHttper.cs" />
     <Compile Include="Http\Methods\AbMethod.cs" />
