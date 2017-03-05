@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Library.Network.Http
 {
-    internal class HttpPkg
+    public class HttpPkg
     {
         #region Head
         public string Url { get; set; }

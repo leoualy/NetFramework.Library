@@ -8,7 +8,8 @@ namespace Library.Network.Http
 {
     public interface IHttper
     {
-        
+        void SendRequestByGet(string url, string content, string contentType, string acceptType, string encodingName, Action<System.IO.Stream, System.Net.HttpStatusCode> responseHandler);
+        void SendRequestByPost(string url, string content, string contentType, string acceptType, string encodingName, Action<System.IO.Stream, System.Net.HttpStatusCode> responseHandler);
 
     }
 }

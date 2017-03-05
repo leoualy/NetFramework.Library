@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Http\HttpPkg.cs" />
+    <Compile Include="Http\IHttper.cs" />
     <Compile Include="Http\Methods\AbMethod.cs" />
     <Compile Include="Http\Methods\GetMethodImpl.cs" />
     <Compile Include="Http\Methods\IMethod.cs" />
