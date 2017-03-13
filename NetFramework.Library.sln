@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.SingleInstance", "Src\Library.SingleInstance\Library.SingleInstance.csproj", "{1798F87A-F597-44BA-B0E1-DBEFCED9C594}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.winform", "Sample\Sample.winform\Sample.winform.csproj", "{1E5EDB96-2BA9-4831-AA6B-F8FCB412955D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9B2F88F1-8BD2-484A-81E3-68DED1278F19} = {9B2F88F1-8BD2-484A-81E3-68DED1278F19}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.wpf", "Sample\Sample.wpf\Sample.wpf.csproj", "{94D309CC-656F-4009-8220-F140C5768DFE}"
 EndProject
