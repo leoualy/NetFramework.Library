@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Sockets;
 
+namespace Library.Network.WinSock
 {
     public abstract class AbstractServer<TData> : IServer<TData>
     {
