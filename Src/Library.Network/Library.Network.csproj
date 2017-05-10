@@ -52,8 +52,16 @@
     <Compile Include="Http\Methods\PostMethodImpl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WinInet\NetWork.cs" />
+    <Compile Include="WinSock\AbstractNetIO.cs" />
+    <Compile Include="WinSock\AbstractServer.cs" />
+    <Compile Include="WinSock\AbstractSocket.cs" />
+    <Compile Include="WinSock\INetIO.cs" />
     <Compile Include="WinSock\Ioctrl.cs" />
+    <Compile Include="WinSock\IServer.cs" />
+    <Compile Include="WinSock\ISocket.cs" />
     <Compile Include="WinSock\SocketSample.cs" />
+    <Compile Include="WinSock\Tcp\TcpServer.cs" />
+    <Compile Include="WinSock\Tcp\TcpSocket.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
